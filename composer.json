@@ -9,6 +9,19 @@
             "email": "pratik007kumar@gmail.com"
         }
     ],
+    
+    "require": {
+        "php": ">=5.4.0",
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Pratik\\ToDoEventCalender\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
     "minimum-stability": "dev",
-    "require": {}
+    "prefer-stable": true
 }

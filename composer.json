@@ -1,0 +1,14 @@
+{
+    "name": "pratik007kumardev/todoeventcalender",
+    "description": "Todo calender for storing details for daily event",
+    "type": "laravel 5.4",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "pratikkumar",
+            "email": "pratik007kumar@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

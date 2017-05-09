@@ -1,7 +1,7 @@
 {
     "name": "pratik007kumardev/todoeventcalender",
     "description": "Todo calender for storing details for daily event",
-    "type": "laravel 5.4",
+    "type": "laravel",
     "license": "MIT",
     "authors": [
         {
@@ -16,6 +16,7 @@
         "illuminate/contracts": "~5.4",
         "illuminate/http": "~5.4",
         "illuminate/support": "~5.4",
+        "laravel/socialite": "^3.0",
         "league/oauth1-client": "~1.0"
     },
 

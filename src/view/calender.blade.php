@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="{{ asset('vendor/plugin/bootstrap/css/bootstrap.min.css') }}">
-	<link href="{{asset('vendor/plugin/fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
-	<link href="{{asset('vendor/plugin/daterangepicker/daterangepicker.css')}}" rel='stylesheet' />
-	<link href="{{asset('vendor/plugin/fullcalendar/fullcalendar.print.min.css')}}" rel='stylesheet' media='print' />
+<link rel="stylesheet" href="{{ asset('vendor/pratik/todocalender/plugin/bootstrap/css/bootstrap.min.css') }}">
+	<link href="{{asset('vendor/pratik/todocalender/plugin/fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
+	<link href="{{asset('vendor/pratik/todocalender/plugin/daterangepicker/daterangepicker.css')}}" rel='stylesheet' />
+	<link href="{{asset('vendor/pratik/todocalender/plugin/fullcalendar/fullcalendar.print.min.css')}}" rel='stylesheet' media='print' />
 	<style type="text/css">
 		.label{ color: #000; }
 		.error{ color: #f00;
@@ -16,13 +16,13 @@
 
 
 
-<script src="{{asset('vendor/plugin/fullcalendar/lib/moment.min.js')}}"></script>
-<script src="{{asset('vendor/plugin/fullcalendar/lib/jquery.min.js')}}"></script>
-<script src="{{asset('vendor/plugin/bootstrap/js/bootstrap.js')}}"></script>
-<script src="{{asset('vendor/plugin/bootstrap/js/bootstrap-tooltip.js')}}"></script>
-<script src="{{asset('vendor/plugin/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('vendor/pratik/todocalender/plugin/fullcalendar/lib/moment.min.js')}}"></script>
+<script src="{{asset('vendor/pratik/todocalender/plugin/fullcalendar/lib/jquery.min.js')}}"></script>
+<script src="{{asset('vendor/pratik/todocalender/plugin/bootstrap/js/bootstrap.js')}}"></script>
+<script src="{{asset('vendor/pratik/todocalender/plugin/bootstrap/js/bootstrap-tooltip.js')}}"></script>
+<script src="{{asset('vendor/pratik/todocalender/plugin/daterangepicker/daterangepicker.js')}}"></script>
 
-<script src="{{asset('vendor/plugin/fullcalendar/fullcalendar.min.js')}}"></script>
+<script src="{{asset('vendor/pratik/todocalender/plugin/fullcalendar/fullcalendar.min.js')}}"></script>
 {{-- <script src="{{asset('plugin/jquery.validate/jquery.validate.js')}}"></script> --}}
 {{-- <script src="{{asset('plugin/jquery.validate/jquery.form.js')}}"></script> --}}
  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>

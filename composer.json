@@ -16,8 +16,6 @@
         "illuminate/contracts": "~5.4",
         "illuminate/http": "~5.4",
         "illuminate/support": "~5.4",
-        "laravel/socialite": "^3.0",
-        "league/oauth1-client": "~1.0"
     },
 
     "autoload": {

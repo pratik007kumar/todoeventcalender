@@ -18,7 +18,7 @@ class TodoEventCalenderServiceProvider extends ServiceProvider
       $this->loadRoutesFrom(__DIR__.'/routes.php');
 
       $this->publishes([
-        __DIR__.'/public' => public_path('pratik/todocalender'),
+        __DIR__.'/public' => public_path('vendor/pratik/todocalender'),
     ], 'public');
     }
 

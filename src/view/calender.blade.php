@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="{{ asset('public/plugin/bootstrap/css/bootstrap.min.css') }}">
-	<link href="{{asset('public/plugin/fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
-	<link href="{{asset('public/plugin/daterangepicker/daterangepicker.css')}}" rel='stylesheet' />
-	<link href="{{asset('public/plugin/fullcalendar/fullcalendar.print.min.css')}}" rel='stylesheet' media='print' />
+<link rel="stylesheet" href="{{ asset('vendor/plugin/bootstrap/css/bootstrap.min.css') }}">
+	<link href="{{asset('vendor/plugin/fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
+	<link href="{{asset('vendor/plugin/daterangepicker/daterangepicker.css')}}" rel='stylesheet' />
+	<link href="{{asset('vendor/plugin/fullcalendar/fullcalendar.print.min.css')}}" rel='stylesheet' media='print' />
 	<style type="text/css">
 		.label{ color: #000; }
 		.error{ color: #f00;
@@ -10,19 +10,19 @@
 	</style>
 
 
-<div class="col-md-12">
+			<div class="col-md-12">
 				<div id='calendar'></div>
 			</div>
 
 
 
-<script src="{{asset('public/plugin/fullcalendar/lib/moment.min.js')}}"></script>
-<script src="{{asset('public/plugin/fullcalendar/lib/jquery.min.js')}}"></script>
-<script src="{{asset('public/plugin/bootstrap/js/bootstrap.js')}}"></script>
-<script src="{{asset('public/plugin/bootstrap/js/bootstrap-tooltip.js')}}"></script>
-<script src="{{asset('public/plugin/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('vendor/plugin/fullcalendar/lib/moment.min.js')}}"></script>
+<script src="{{asset('vendor/plugin/fullcalendar/lib/jquery.min.js')}}"></script>
+<script src="{{asset('vendor/plugin/bootstrap/js/bootstrap.js')}}"></script>
+<script src="{{asset('vendor/plugin/bootstrap/js/bootstrap-tooltip.js')}}"></script>
+<script src="{{asset('vendor/plugin/daterangepicker/daterangepicker.js')}}"></script>
 
-<script src="{{asset('public/plugin/fullcalendar/fullcalendar.min.js')}}"></script>
+<script src="{{asset('vendor/plugin/fullcalendar/fullcalendar.min.js')}}"></script>
 {{-- <script src="{{asset('plugin/jquery.validate/jquery.validate.js')}}"></script> --}}
 {{-- <script src="{{asset('plugin/jquery.validate/jquery.form.js')}}"></script> --}}
  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>

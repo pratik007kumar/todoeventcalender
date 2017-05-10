@@ -32,5 +32,7 @@ class TodoEventCalenderServiceProvider extends ServiceProvider
          // include __DIR__.'/routes.php';
 
         $this->app->make('Pratik\ToDoEventCalender\Controller\CalenderController');
+        // $this->app->make('Pratik\ToDoEventCalender\Model\Calender');
+        // $this->app->make('Pratik\ToDoEventCalender\Requests\');
     }
 }

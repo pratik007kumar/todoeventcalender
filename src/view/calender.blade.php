@@ -1,4 +1,9 @@
-<link rel="stylesheet" href="{{ asset('vendor/pratik/todocalender/plugins/bootstrap/css/bootstrap.min.css') }}">
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	
+	<link rel="stylesheet" href="{{ asset('vendor/pratik/todocalender/plugins/bootstrap/css/bootstrap.min.css') }}">
 	<link href="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
 	<link href="{{asset('vendor/pratik/todocalender/plugins/daterangepicker/daterangepicker.css')}}" rel='stylesheet' />
 	<link href="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.print.min.css')}}" rel='stylesheet' media='print' />
@@ -8,14 +13,43 @@
 			font-size: 10px;
 		}
 	</style>
+</head>
+<body>
+	<div id='wrap'>
 
-
+		
+		<div class="container">
+			
+			
 			<div class="col-md-12">
 				<div id='calendar'></div>
 			</div>
+			
+		</div>
+		
+		<div id="calendarModal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<form id="calender_frm" action="#" method="post">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+						<h4 id="modalTitle" class="modal-title"></h4>
+					</div>
+					<div id="modalBody" class="modal-body"> </div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success" >Save</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+	
 
-
-
+</body>
 <script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/lib/moment.min.js')}}"></script>
 <script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/lib/jquery.min.js')}}"></script>
 <script src="{{asset('vendor/pratik/todocalender/plugins/bootstrap/js/bootstrap.js')}}"></script>
@@ -26,9 +60,8 @@
 {{-- <script src="{{asset('plugin/jquery.validate/jquery.validate.js')}}"></script> --}}
 {{-- <script src="{{asset('plugin/jquery.validate/jquery.form.js')}}"></script> --}}
  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
-<script>
-
-
+<script type="application/javascript">
+// moment().format();
 
 	$(document).ready(function() {
 
@@ -38,66 +71,37 @@
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
-			defaultDate: '2017-05-12',
+			defaultDate: '{{date("Y-m-d")}}',
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
-			events: [
-			{	id:5,
-				title: 'All Day Event',
-				start: '2017-05-01',
-				description:'asdfdsafsdafdsafdsafsdafdsafdsaf sadf sdafs sad sdaf sdaf sadfsadf sad s sadf'
-			},
-			{
-				title: 'Long Event',
-				start: '2017-05-07T10:15',
-				end: '2017-05-10T20:15'
-			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: '2017-05-09T16:00:00'
-			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: '2017-05-16T16:00:00'
-			},
-			{
-				title: 'Conference',
-				start: '2017-05-11',
-				end: '2017-05-13'
-			},
-			{
-				title: 'Meeting',
-				start: '2017-05-12T10:30:00',
-				end: '2017-05-12T12:30:00'
-			},
-			{
-				title: 'Lunch',
-				start: '2017-05-12T12:00:00'
-			},
-			{
-				title: 'Meeting',
-				start: '2017-05-12T14:30:00'
-			},
-			{
-				title: 'Happy Hour',
-				start: '2017-05-12T17:30:00'
-			},
-			{
-				title: 'Dinner',
-				start: '2017-05-12T20:00:00'
-			},
-			{
-				title: 'Birthday Party',
-				start: '2017-05-13T07:00:00'
-			},
-			{
-				title: 'Click for Google',
-				url: 'http://google.com/',
-				start: '2017-05-28'
-			}
-			],
+			events: function(start, end, timezone, callback) {
+		        $.ajax({
+		            url: '{{url('/calender/getcalender')}}',
+		            dataType: 'json',
+		            data: {
+		                // our hypothetical feed requires UNIX timestamps
+		                start: start.unix(),
+		                end: end.unix()
+		            },
+		            success: function(obj) {
+	            	var events = [];
+			          $.each(obj, function(index, value) {
+			            events.push({
+			              id: value['id'],
+			              start: value['start'],
+			              title: value['title'],
+			              end: value['end'],
+			              description: value['description'],
+			              //all data
+			            });
+			            // console.log(value)
+			          });
+			          callback(events);
+			       
+		            }
+		        });
+		    }
+			,
 			eventRender: function(event, element) {
 		 //      $(element).tooltip({title: event.title});       
 		 element.find("div.fc-content").prepend("+");      
@@ -106,47 +110,81 @@
    //         alert(data.start);
    //      },
 	   eventClick:  function(event, jsEvent, view) {
-	   	$('#modalTitle').html(event.title);
-	   	$('#modalBody').html(event.description);
-	   	$('#eventUrl').attr('href',event.url);
-	   	$('#calendarModal').modal();
+	   	// $('#modalTitle').html(event.title);
+	   	// $('#modalBody').html(event.description);
+	   	// $('#eventUrl').attr('href',event.url);
+	   	// $('#calendarModal').modal();
+
+   		$('#modalTitle').html('Update Event ');
+  	    $.ajax({
+	        method: "POST",
+	        url: "{{url('/calender/getfrm')}}",
+	        data:{
+	        	 _token: "{{ csrf_token() }}",
+	        	 id:event.id
+	        }
+	        }).done(function( data ) {
+
+	        if(data.status == 1){
+	           
+             $('#modalBody').html(data.frm);
+		            // $('#eventUrl').attr('href',event.url);
+	            $('input[name="daterange"]').daterangepicker({
+	            	timePicker: true,
+	            	timePickerIncrement: 30,
+	            	locale: {
+	            		format: 'DD/MM/YYYY h:mm A'
+	            	}
+	            });
+	            $('#calendarModal').modal();
+			       
+	        }else{
+	            alert(data.message);
+	            //$('.error-favourite-message').html(msg.message);
+	        }
+	    });
 	   },
+
 	   dayClick:  function(date,event, jsEvent, view) {
 
-			  	   // alert('Clicked on: ' + date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear());  
-			  	   
-			  	   $('#modalTitle').html('New Event Form');
+	   				// alert(date);
 
-			  	   var new_form_code ="";
-			  	    $.ajax({
-				        method: "POST",
-				        url: "{{url('/calender/getfrm')}}",
-				        data:{
-				        	 "_token": "{{ csrf_token() }}"
-				        }
-				        }).done(function( data ) {
+   // dt=date.toString(); 
+   dt=date.toString("MM/dd/yyyy hh:mm.ss");
 
-				        if(data.status == 1){
-				           
-				             $('#modalBody').html(data.frm);
-						            // $('#eventUrl').attr('href',event.url);
-						            $('input[name="daterange"]').daterangepicker({
-						            	timePicker: true,
-						            	timePickerIncrement: 30,
-						            	locale: {
-						            		format: 'DD/MM/YYYY h:mm A'
-						            	}
-						            });
-						            $('#calendarModal').modal();
-						       
-				        }else{
-				            alert(data.message);
-				            //$('.error-favourite-message').html(msg.message);
-				        }
-				    });
-					 },
-						    });
+  	   $('#modalTitle').html('New Event Form');
+  	    $.ajax({
+	        method: "POST",
+	        url: "{{url('/calender/getfrm')}}",
+	        data:{
+	        	 _token: "{{ csrf_token() }}",
+	        	 cal_date:dt
+	        	 // dt:date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()
+	        }
+	        }).done(function( data ) {
 
+	        if(data.status == 1){
+	           
+	             $('#modalBody').html(data.frm);
+			            // $('#eventUrl').attr('href',event.url);
+			            $('input[name="daterange"]').daterangepicker({
+			            	timePicker: true,
+			            	timePickerIncrement: 30,
+			            	locale: {
+			            		format: 'DD/MM/YYYY h:mm A'
+			            	}
+			            });
+			            $('#calendarModal').modal();
+			       
+	        }else{
+	            alert(data.message);
+	            //$('.error-favourite-message').html(msg.message);
+	        }
+	    });
+		 },
+    });
+ 
+ 
 		$("#calender_frm").validate({
 		 				 rules: {
 					        title: {
@@ -167,16 +205,154 @@
 					         
 					    },
 					    submitHandler: function(form) {
-					        var formData = new FormData($("#image")[0]);
-					        // $(form).ajaxSubmit({
-					        //     url:"action.php",
-					        //     type:"post",
-					        //     success: function(data,status){
-					        //       alert(data);
-					        //     }
-					        // });
-					    }
+					    	 $.ajax({
+						        method: "POST",
+						        url: "{{url('/calender/save')}}",
+						        data:$(form).serialize(),
+								success: function (data) {
+								 if(data.status){
+								 	alert(data.msg);
+								 	// make_calender();
+								 	$('#calendar').fullCalendar( 'refetchEvents' )
+								 	$('#calendarModal').modal('hide');
+									// make_calender();
+								 }else{
+								 	alert(data.msg);
+
+								 }
+								}
+						        });
+					    	//   .done(function( data ) {
+
+						    //     if(data.status == 1){
+						             
+						    //     }else{
+						    //         alert(data.message);
+						    //         //$('.error-favourite-message').html(msg.message);
+						    //     }
+						    // });
+
+
+					    },
 		});
 			  	 
 		
-	});</script>
+	});
+
+		 
+	  	
+
+//  $("#text_pop_up_frm").validate( {
+
+//       success: function() {
+//         // alert('tested');
+//     },
+//      submitHandler: function (form ,event) {
+     
+//             // success.show();
+//             // error.hide();
+//             // form.submit(); // submit the form
+
+//         event.preventDefault(); 
+//       $('#text_pop_up_submit').html('<i class="fa fa-spinner fa-spin"></i> Add');
+//         //used to determine the http verb to use [add=POST], [update=PUT]
+//           //for creating new resource
+//         $.ajax({
+//             type: 'POST',
+//             url: '{{ url("admin/text/")}}',
+//             data: {
+//               text_domain_id:gtext_domain_id,
+//               text_value_type_id:gtext_value_type_id,
+//               text_domain_details_id:gtext_domain_details_id,
+//               fld_language_id:$('#fld_language_id').val(),
+//               fld_label:$('#fld_label').val(),
+//               fld_content:$('#fld_content').val(),
+//               fld_pos:$('#fld_pos').val(),
+//               id:$('#fld_id').val(),
+//               reff_id:gtext_reff_id,
+//               reff_type:gtext_reff_type,
+//                   },
+//             dataType: 'json',
+//             success: function (data) {
+//                 if(data.status){
+//                    gtext_domain_id='';
+//                    gtext_value_type_id='';
+//                    gtext_domain_details_id='';
+//                     $('#text_pop_up_title').html('');
+//                 $('#text_pop_up_body').html('');
+//                 $('#text_pop_up_modal').modal('hide')
+                 
+//                   new PNotify({
+//                 // title: 'Regular Notice',
+//                 text: "Text Added Successfully !",
+//                 type: "success",
+//                 icon: false
+//               });
+//              $('#text_pop_up_submit').html('<i class="fa fa-plus"> Add');
+//                     textTable.draw();  
+//                 }else{
+                 
+//                   $.each(data.message, function(key, msg) {
+//                     if(key=='fld_content'){
+//                     $('#fld_err_content').html(msg);
+//                     }
+
+//                     if(key=='fld_label'){
+//                       $('#fld_err_label').html(msg);
+//                     }
+//                   });
+                  
+//                 console.log(data.message);  
+//                 }
+            
+             
+//             },
+//             error: function (data) {
+//                 console.log('Error:', data);
+//             }
+//         });
+      
+//         }
+      
+//       });
+// });
+	// $('#calender_frm').submit(function(){
+	// 	alert('test');
+			// $("#calender_frm").validate({
+			//     rules: {
+			//         title: {
+			//                 required: true,
+			//             },
+			//         daterange: {
+			//             required: true,
+			//         },          
+			        
+			//     },
+			//     messages: {
+			//         title: {
+			//                 required: "Please enter Todo Title",
+			//             },
+			//         daterange: {
+			//             required: "Please enter Select Date and Time",
+			//         },          
+			         
+			//     },
+			//     submitHandler: function(form) {
+			//         var formData = new FormData($("#image")[0]);
+			//         // $(form).ajaxSubmit({
+			//         //     url:"action.php",
+			//         //     type:"post",
+			//         //     success: function(data,status){
+			//         //       alert(data);
+			//         //     }
+			//         // });
+			//     }
+			// });
+	// });
+
+
+</script>  
+
+
+
+</html>

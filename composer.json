@@ -3,6 +3,7 @@
     "description": "Todo calender for storing details for daily event",
     "type": "laravel",
     "license": "MIT",
+    "homepage":"https://github.com/pratik007kumarDev/todoeventcalender",
     "authors": [
         {
             "name": "pratikkumar",

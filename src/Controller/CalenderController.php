@@ -105,10 +105,12 @@ public function getCalender(Request $request)
 		$calender['id']=$row->id;
 		$calender['title']=$row->title;
 		$calender['start']=str_replace('IST', 'T', date('Y-m-dTH:i:s',strtotime($row->start_dt))) ;
+		$calender['start']=str_replace('UTC', 'T', date('Y-m-dTH:i:s',strtotime($row->start_dt))) ;
 		// $calender['start']=date('Y-m-d',strtotime($row->start_dt)) ;
 		$calender['end']=date('Y-m-d',strtotime($row->end_dt)) ;
 
 		$calender['end']=str_replace('IST', 'T', date('Y-m-dTH:i:s',strtotime($row->end_dt))) ;
+		$calender['end']=str_replace('UTC', 'T', date('Y-m-dTH:i:s',strtotime($row->end_dt))) ;
 		$calender['description']=$row->description;
 	$test_arr[]=$calender;
 	}

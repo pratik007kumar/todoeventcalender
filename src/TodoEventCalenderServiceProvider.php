@@ -26,6 +26,11 @@ class TodoEventCalenderServiceProvider extends ServiceProvider
         __DIR__.'/migrations/' => database_path('/migrations')
     ], 'migrations');
 
+    $this->publishes([
+        __DIR__.'/view' => resource_path('views/vendor/pratik/todocalender'),
+    ]);
+
+    }
     /**
      * Register the application services.
      *

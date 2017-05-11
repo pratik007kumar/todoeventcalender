@@ -15,7 +15,7 @@
 		}
 	</style>
 
-	
+
 </head>
 <body>
 	<div id='wrap'>
@@ -61,10 +61,10 @@
 	<script src="{{asset('vendor/pratik/todocalender/plugins/daterangepicker/daterangepicker.js')}}"></script>
 
 	<script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
-	<script src="{{asset('plugin/jquery.validate/jquery.validate.js')}}"></script>
+	<script src="{{asset('vendor/pratik/todocalender/plugins/jquery.validate/jquery.validate.js')}}"></script>
 	{{-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script> --}}
 
-	<script >
+	<script  >
 
 
 		$(document).ready(function() {

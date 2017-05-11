@@ -6,7 +6,8 @@
 	<link rel="stylesheet" href="{{ asset('vendor/pratik/todocalender/plugins/bootstrap/css/bootstrap.min.css') }}">
 	<link href="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
 	<link href="{{asset('vendor/pratik/todocalender/plugins/daterangepicker/daterangepicker.css')}}" rel='stylesheet' />
-	<link href="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.print.min.css')}}" rel='stylesheet' media='print' />
+	<link href="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.print.min.css')}}" rel='stylesheet' media="print" />
+	
 	<style type="text/css">
 		.label{ color: #000; }
 		.error{ color: #f00;
@@ -64,13 +65,20 @@
 // moment().format();
 
 	$(document).ready(function() {
-
+$.ajaxSetup(
+{
+    headers:
+    {
+        'X-CSRF-Token': $('input[name="_token"]').val()
+    }
+});
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
+			timezone: 'Asia/Kolkata',
 			defaultDate: '{{date("Y-m-d")}}',
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
@@ -104,7 +112,7 @@
 			,
 			eventRender: function(event, element) {
 		 //      $(element).tooltip({title: event.title});       
-		 element.find("div.fc-content").prepend("+");      
+		 // element.find("div.fc-content").prepend("+");      
 		},
 		 // eventClick: function(data, event, view) {
    //         alert(data.start);
@@ -147,10 +155,15 @@
 
 	   dayClick:  function(date,event, jsEvent, view) {
 
-	   				// alert(date);
+	//    				alert(date);
+	//    				alert(convert(date));
 
-   // dt=date.toString(); 
-   dt=date.toString("MM/dd/yyyy hh:mm.ss");
+ //   // dt=date.toString(); 
+  date_o=  new Date(date)
+ // alert(date.getTime());
+   dt=date.toString("Y/m/d hh:mm.ss");
+// alert(dt);
+
 
   	   $('#modalTitle').html('New Event Form');
   	    $.ajax({
@@ -158,8 +171,9 @@
 	        url: "{{url('/calender/getfrm')}}",
 	        data:{
 	        	 _token: "{{ csrf_token() }}",
-	        	 cal_date:dt
-	        	 // dt:date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()
+	        	 cal_date:dt,
+	        	  dat:date_o.getFullYear()+"-"+(date_o.getMonth()+1)+"-"+date_o.getDate(),
+	        	  // tm:date.getTime()
 	        }
 	        }).done(function( data ) {
 
@@ -182,6 +196,54 @@
 	        }
 	    });
 		 },
+		eventResize: function(event, delta, revertFunc) {
+
+        // alert(event.title +event.start.format()+ " end is now " + event.end.format());
+
+        // if (confirm("is this okay?")) {
+            $.ajax({
+				        method: "POST",
+				        url: "{{url('/calender/resize')}}",
+				        data:{
+				        	 _token: "{{ csrf_token() }}",
+				        	 id:event.id,
+				        	 start_dt:event.start.format(),
+				        	 end_dt:event.end.format(),
+				        	  // tm:date.getTime()
+				        },
+						success: function (data) {
+						 if(data.status){
+						 	$('#calendar').fullCalendar( 'refetchEvents' )
+						  
+						 } 
+						}
+				        });
+        // }
+
+    	},
+    	eventDrop: function(event, delta, revertFunc) {
+
+        // alert(event.title + " was dropped on " + event.start.format()+' to '+event.end.format());
+
+        $.ajax({
+				        method: "POST",
+				        url: "{{url('/calender/resize')}}",
+				        data:{
+				        	 _token: "{{ csrf_token() }}",
+				        	 id:event.id,
+				        	 start_dt:event.start.format(),
+				        	 end_dt:event.end.format(),
+				        	  // tm:date.getTime()
+				        },
+						success: function (data) {
+						 if(data.status){
+						 	$('#calendar').fullCalendar( 'refetchEvents' )
+						  
+						 } 
+						}
+				        });
+
+    }
     });
  
  
@@ -222,15 +284,7 @@
 								 }
 								}
 						        });
-					    	//   .done(function( data ) {
-
-						    //     if(data.status == 1){
-						             
-						    //     }else{
-						    //         alert(data.message);
-						    //         //$('.error-favourite-message').html(msg.message);
-						    //     }
-						    // });
+					    	 
 
 
 					    },
@@ -239,116 +293,7 @@
 		
 	});
 
-		 
-	  	
-
-//  $("#text_pop_up_frm").validate( {
-
-//       success: function() {
-//         // alert('tested');
-//     },
-//      submitHandler: function (form ,event) {
-     
-//             // success.show();
-//             // error.hide();
-//             // form.submit(); // submit the form
-
-//         event.preventDefault(); 
-//       $('#text_pop_up_submit').html('<i class="fa fa-spinner fa-spin"></i> Add');
-//         //used to determine the http verb to use [add=POST], [update=PUT]
-//           //for creating new resource
-//         $.ajax({
-//             type: 'POST',
-//             url: '{{ url("admin/text/")}}',
-//             data: {
-//               text_domain_id:gtext_domain_id,
-//               text_value_type_id:gtext_value_type_id,
-//               text_domain_details_id:gtext_domain_details_id,
-//               fld_language_id:$('#fld_language_id').val(),
-//               fld_label:$('#fld_label').val(),
-//               fld_content:$('#fld_content').val(),
-//               fld_pos:$('#fld_pos').val(),
-//               id:$('#fld_id').val(),
-//               reff_id:gtext_reff_id,
-//               reff_type:gtext_reff_type,
-//                   },
-//             dataType: 'json',
-//             success: function (data) {
-//                 if(data.status){
-//                    gtext_domain_id='';
-//                    gtext_value_type_id='';
-//                    gtext_domain_details_id='';
-//                     $('#text_pop_up_title').html('');
-//                 $('#text_pop_up_body').html('');
-//                 $('#text_pop_up_modal').modal('hide')
-                 
-//                   new PNotify({
-//                 // title: 'Regular Notice',
-//                 text: "Text Added Successfully !",
-//                 type: "success",
-//                 icon: false
-//               });
-//              $('#text_pop_up_submit').html('<i class="fa fa-plus"> Add');
-//                     textTable.draw();  
-//                 }else{
-                 
-//                   $.each(data.message, function(key, msg) {
-//                     if(key=='fld_content'){
-//                     $('#fld_err_content').html(msg);
-//                     }
-
-//                     if(key=='fld_label'){
-//                       $('#fld_err_label').html(msg);
-//                     }
-//                   });
-                  
-//                 console.log(data.message);  
-//                 }
-            
-             
-//             },
-//             error: function (data) {
-//                 console.log('Error:', data);
-//             }
-//         });
-      
-//         }
-      
-//       });
-// });
-	// $('#calender_frm').submit(function(){
-	// 	alert('test');
-			// $("#calender_frm").validate({
-			//     rules: {
-			//         title: {
-			//                 required: true,
-			//             },
-			//         daterange: {
-			//             required: true,
-			//         },          
-			        
-			//     },
-			//     messages: {
-			//         title: {
-			//                 required: "Please enter Todo Title",
-			//             },
-			//         daterange: {
-			//             required: "Please enter Select Date and Time",
-			//         },          
-			         
-			//     },
-			//     submitHandler: function(form) {
-			//         var formData = new FormData($("#image")[0]);
-			//         // $(form).ajaxSubmit({
-			//         //     url:"action.php",
-			//         //     type:"post",
-			//         //     success: function(data,status){
-			//         //       alert(data);
-			//         //     }
-			//         // });
-			//     }
-			// });
-	// });
+ 
 
 
 </script>  

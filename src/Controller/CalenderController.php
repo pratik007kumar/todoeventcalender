@@ -2,7 +2,8 @@
 namespace Pratik\ToDoEventCalender\Controller;
 
 use App\Http\Controllers\Controller;
-use Auth;
+// use Auth;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Pratik\ToDoEventCalender\Requests\CalenderRequest;
@@ -21,9 +22,20 @@ class CalenderController extends Controller
     }
     public function create(Request $request)
     {
+		$id=$request->get('id');
+    	$dt=$request->get('cal_date');
+    	$dat=$request->get('dat');
+    	if($id==''){
+    	$dt_ar=explode(" ", $dt);
+    	$dt=  date('Y-m-d H:i:s',strtotime($dat.' '.$dt_ar['4']));
 
-    	$dt=$request->get('dt');
-    	 $returnHTML= view('calender.calender_frm')->render();
+    	 $returnHTML= view('todocalender::calender_frm')->with('dt',$dt)->render();
+    	}else{
+    		$event=Calender::find($id);
+    	 $returnHTML= view('todocalender::calender_frm')->with('event',$event)->render();
+
+    	}
+    	 // exit;
     	 return response()->json(array('status' => true, 'frm'=>$returnHTML));
     }
 
@@ -50,7 +62,7 @@ public function store(CalenderRequest $request)
 	$date = str_replace('/', '-', $var);
  	$daterange[1]=date('Y-m-d H:i:s ', strtotime($date));
 	$end_dt=$daterange[1];
-	 // print_r($daterange);
+	 // print_r(\Auth::user()->id); exit;
 	if($id==''){
 		$obj =new Calender();
 	}else{
@@ -105,6 +117,25 @@ public function getCalender(Request $request)
 
     	 // return response()->json(array('status' => true, 'rows'=>$calender));
     	 return response()->json($test_arr);
+
+}
+
+public function resize(Request $request)
+{
+	$id=$request->get('id');
+
+	$start_dt=$request->get('start_dt');
+	$start_dt=str_replace('T', ' ', date('Y-m-d H:i:s',strtotime($start_dt))) ;
+	$end_dt=$request->get('end_dt');
+	$end_dt=str_replace('T', ' ', date('Y-m-d H:i:s',strtotime($end_dt))) ;
+	
+	$obj =Calender::find($id);
+	$obj->start_dt=$start_dt;
+	$obj->end_dt=$end_dt;
+	$obj->save();
+
+    	 return response()->json(array('status' => true));
+
 
 }
 }

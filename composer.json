@@ -1,7 +1,8 @@
 {
     "name": "pratik007kumardev/todoeventcalender",
-    "description": "Todo calender for storing details for daily event",
-    "type": "laravel",
+    "description": "laravel 5.4 base Todo calender for storing details for daily event",
+    "type": "library",
+    "language":"php , php7",
     "license": "MIT",
     "keywords": ["calender","event calender","todo calender","todo event calender","laravel 5.4"],
     "homepage":"https://github.com/pratik007kumarDev/todoeventcalender",

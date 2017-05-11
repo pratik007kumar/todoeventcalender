@@ -14,6 +14,8 @@
 			font-size: 10px;
 		}
 	</style>
+
+	
 </head>
 <body>
 	<div id='wrap'>
@@ -31,16 +33,16 @@
 		<div id="calendarModal" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
-				<form id="calender_frm" action="#" method="post">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-						<h4 id="modalTitle" class="modal-title"></h4>
-					</div>
-					<div id="modalBody" class="modal-body"> </div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success" >Save</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
+					<form id="calender_frm" action="#" method="post">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+							<h4 id="modalTitle" class="modal-title"></h4>
+						</div>
+						<div id="modalBody" class="modal-body"> </div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-success" >Save</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -50,65 +52,66 @@
 	</div>
 	
 
-</body>
-<script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/lib/moment.min.js')}}"></script>
-<script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/lib/jquery.min.js')}}"></script>
-<script src="{{asset('vendor/pratik/todocalender/plugins/bootstrap/js/bootstrap.js')}}"></script>
-<script src="{{asset('vendor/pratik/todocalender/plugins/bootstrap/js/bootstrap-tooltip.js')}}"></script>
-<script src="{{asset('vendor/pratik/todocalender/plugins/daterangepicker/daterangepicker.js')}}"></script>
 
-<script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
-{{-- <script src="{{asset('plugin/jquery.validate/jquery.validate.js')}}"></script> --}}
-{{-- <script src="{{asset('plugin/jquery.validate/jquery.form.js')}}"></script> --}}
- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
-<script type="application/javascript">
-// moment().format();
 
-	$(document).ready(function() {
-$.ajaxSetup(
-{
-    headers:
-    {
-        'X-CSRF-Token': $('input[name="_token"]').val()
-    }
-});
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
-			},
-			timezone: 'Asia/Kolkata',
-			defaultDate: '{{date("Y-m-d")}}',
-			editable: true,
+	<script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/lib/moment.min.js')}}"></script>
+	<script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/lib/jquery.min.js')}}"></script>
+	<script src="{{asset('vendor/pratik/todocalender/plugins/bootstrap/js/bootstrap.js')}}"></script>
+	<script src="{{asset('vendor/pratik/todocalender/plugins/bootstrap/js/bootstrap-tooltip.js')}}"></script>
+	<script src="{{asset('vendor/pratik/todocalender/plugins/daterangepicker/daterangepicker.js')}}"></script>
+
+	<script src="{{asset('vendor/pratik/todocalender/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
+	<script src="{{asset('plugin/jquery.validate/jquery.validate.js')}}"></script>
+	{{-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script> --}}
+
+	<script >
+
+
+		$(document).ready(function() {
+			$.ajaxSetup(
+			{
+				headers:
+				{
+					'X-CSRF-Token': $('input[name="_token"]').val()
+				}
+			});
+			$('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+				timezone: 'Asia/Kolkata',
+				defaultDate: '{{date("Y-m-d")}}',
+				editable: true,
 			eventLimit: true, // allow "more" link when too many events
 			events: function(start, end, timezone, callback) {
-		        $.ajax({
-		            url: '{{url('/calender/getcalender')}}',
-		            dataType: 'json',
-		            data: {
+				$.ajax({
+					url: '{{url('/calender/getcalender')}}',
+					dataType: 'json',
+					data: {
 		                // our hypothetical feed requires UNIX timestamps
 		                start: start.unix(),
 		                end: end.unix()
 		            },
 		            success: function(obj) {
-	            	var events = [];
-			          $.each(obj, function(index, value) {
-			            events.push({
-			              id: value['id'],
-			              start: value['start'],
-			              title: value['title'],
-			              end: value['end'],
-			              description: value['description'],
+		            	var events = [];
+		            	$.each(obj, function(index, value) {
+		            		events.push({
+		            			id: value['id'],
+		            			start: value['start'],
+		            			title: value['title'],
+		            			end: value['end'],
+		            			description: value['description'],
 			              //all data
-			            });
-			            // console.log(value)
 			          });
-			          callback(events);
-			       
+			            // console.log(value)
+			        });
+		            	callback(events);
+
 		            }
 		        });
-		    }
+			}
 			,
 			eventRender: function(event, element) {
 		 //      $(element).tooltip({title: event.title});       
@@ -117,37 +120,37 @@ $.ajaxSetup(
 		 // eventClick: function(data, event, view) {
    //         alert(data.start);
    //      },
-	   eventClick:  function(event, jsEvent, view) {
+   eventClick:  function(event, jsEvent, view) {
 	   	// $('#modalTitle').html(event.title);
 	   	// $('#modalBody').html(event.description);
 	   	// $('#eventUrl').attr('href',event.url);
 	   	// $('#calendarModal').modal();
 
-   		$('#modalTitle').html('Update Event ');
-  	    $.ajax({
-	        method: "POST",
-	        url: "{{url('/calender/getfrm')}}",
-	        data:{
-	        	 _token: "{{ csrf_token() }}",
-	        	 id:event.id
-	        }
-	        }).done(function( data ) {
+	   	$('#modalTitle').html('Update Event ');
+	   	$.ajax({
+	   		method: "POST",
+	   		url: "{{url('/calender/getfrm')}}",
+	   		data:{
+	   			_token: "{{ csrf_token() }}",
+	   			id:event.id
+	   		}
+	   	}).done(function( data ) {
 
-	        if(data.status == 1){
-	           
-             $('#modalBody').html(data.frm);
+	   		if(data.status == 1){
+
+	   			$('#modalBody').html(data.frm);
 		            // $('#eventUrl').attr('href',event.url);
-	            $('input[name="daterange"]').daterangepicker({
-	            	timePicker: true,
-	            	timePickerIncrement: 30,
-	            	locale: {
-	            		format: 'DD/MM/YYYY h:mm A'
-	            	}
-	            });
-	            $('#calendarModal').modal();
-			       
-	        }else{
-	            alert(data.message);
+		            $('input[name="daterange"]').daterangepicker({
+		            	timePicker: true,
+		            	timePickerIncrement: 30,
+		            	locale: {
+		            		format: 'DD/MM/YYYY h:mm A'
+		            	}
+		            });
+		            $('#calendarModal').modal();
+
+		        }else{
+		        	alert(data.message);
 	            //$('.error-favourite-message').html(msg.message);
 	        }
 	    });
@@ -159,27 +162,27 @@ $.ajaxSetup(
 	//    				alert(convert(date));
 
  //   // dt=date.toString(); 
-  date_o=  new Date(date)
+ date_o=  new Date(date)
  // alert(date.getTime());
-   dt=date.toString("Y/m/d hh:mm.ss");
+ dt=date.toString("Y/m/d hh:mm.ss");
 // alert(dt);
 
 
-  	   $('#modalTitle').html('New Event Form');
-  	    $.ajax({
-	        method: "POST",
-	        url: "{{url('/calender/getfrm')}}",
-	        data:{
-	        	 _token: "{{ csrf_token() }}",
-	        	 cal_date:dt,
-	        	  dat:date_o.getFullYear()+"-"+(date_o.getMonth()+1)+"-"+date_o.getDate(),
+$('#modalTitle').html('New Event Form');
+$.ajax({
+	method: "POST",
+	url: "{{url('/calender/getfrm')}}",
+	data:{
+		_token: "{{ csrf_token() }}",
+		cal_date:dt,
+		dat:date_o.getFullYear()+"-"+(date_o.getMonth()+1)+"-"+date_o.getDate(),
 	        	  // tm:date.getTime()
-	        }
+	        	}
 	        }).done(function( data ) {
 
-	        if(data.status == 1){
-	           
-	             $('#modalBody').html(data.frm);
+	        	if(data.status == 1){
+
+	        		$('#modalBody').html(data.frm);
 			            // $('#eventUrl').attr('href',event.url);
 			            $('input[name="daterange"]').daterangepicker({
 			            	timePicker: true,
@@ -189,115 +192,115 @@ $.ajaxSetup(
 			            	}
 			            });
 			            $('#calendarModal').modal();
-			       
-	        }else{
-	            alert(data.message);
+
+			        }else{
+			        	alert(data.message);
 	            //$('.error-favourite-message').html(msg.message);
 	        }
 	    });
-		 },
-		eventResize: function(event, delta, revertFunc) {
+	    },
+	    eventResize: function(event, delta, revertFunc) {
 
         // alert(event.title +event.start.format()+ " end is now " + event.end.format());
 
         // if (confirm("is this okay?")) {
-            $.ajax({
-				        method: "POST",
-				        url: "{{url('/calender/resize')}}",
-				        data:{
-				        	 _token: "{{ csrf_token() }}",
-				        	 id:event.id,
-				        	 start_dt:event.start.format(),
-				        	 end_dt:event.end.format(),
+        	$.ajax({
+        		method: "POST",
+        		url: "{{url('/calender/resize')}}",
+        		data:{
+        			_token: "{{ csrf_token() }}",
+        			id:event.id,
+        			start_dt:event.start.format(),
+        			end_dt:event.end.format(),
 				        	  // tm:date.getTime()
-				        },
-						success: function (data) {
-						 if(data.status){
-						 	$('#calendar').fullCalendar( 'refetchEvents' )
-						  
-						 } 
-						}
+				        	},
+				        	success: function (data) {
+				        		if(data.status){
+				        			$('#calendar').fullCalendar( 'refetchEvents' )
+
+				        		} 
+				        	}
 				        });
         // }
 
-    	},
-    	eventDrop: function(event, delta, revertFunc) {
+    },
+    eventDrop: function(event, delta, revertFunc) {
 
         // alert(event.title + " was dropped on " + event.start.format()+' to '+event.end.format());
 
         $.ajax({
-				        method: "POST",
-				        url: "{{url('/calender/resize')}}",
-				        data:{
-				        	 _token: "{{ csrf_token() }}",
-				        	 id:event.id,
-				        	 start_dt:event.start.format(),
-				        	 end_dt:event.end.format(),
+        	method: "POST",
+        	url: "{{url('/calender/resize')}}",
+        	data:{
+        		_token: "{{ csrf_token() }}",
+        		id:event.id,
+        		start_dt:event.start.format(),
+        		end_dt:event.end.format(),
 				        	  // tm:date.getTime()
-				        },
-						success: function (data) {
-						 if(data.status){
-						 	$('#calendar').fullCalendar( 'refetchEvents' )
-						  
-						 } 
-						}
+				        	},
+				        	success: function (data) {
+				        		if(data.status){
+				        			$('#calendar').fullCalendar( 'refetchEvents' )
+
+				        		} 
+				        	}
 				        });
 
     }
-    });
- 
- 
-		$("#calender_frm").validate({
-		 				 rules: {
-					        title: {
-					                required: true,
-					            },
-					        daterange: {
-					            required: true,
-					        },          
-					        
-					    },
-					    messages: {
-					        title: {
-					                required: "Please enter Todo Title",
-					            },
-					        daterange: {
-					            required: "Please enter Select Date and Time",
-					        },          
-					         
-					    },
-					    submitHandler: function(form) {
-					    	 $.ajax({
-						        method: "POST",
-						        url: "{{url('/calender/save')}}",
-						        data:$(form).serialize(),
-								success: function (data) {
-								 if(data.status){
-								 	alert(data.msg);
+});
+
+
+$("#calender_frm").validate({
+	rules: {
+		title: {
+			required: true,
+		},
+		daterange: {
+			required: true,
+		},          
+
+	},
+	messages: {
+		title: {
+			required: "Please enter Todo Title",
+		},
+		daterange: {
+			required: "Please enter Select Date and Time",
+		},          
+
+	},
+	submitHandler: function(form) {
+		$.ajax({
+			method: "POST",
+			url: "{{url('/calender/save')}}",
+			data:$(form).serialize(),
+			success: function (data) {
+				if(data.status){
+					alert(data.msg);
 								 	// make_calender();
 								 	$('#calendar').fullCalendar( 'refetchEvents' )
 								 	$('#calendarModal').modal('hide');
 									// make_calender();
-								 }else{
-								 	alert(data.msg);
+								}else{
+									alert(data.msg);
 
-								 }
 								}
-						        });
-					    	 
+							}
+						});
 
 
-					    },
-		});
-			  	 
-		
-	});
 
- 
+	},
+});
 
 
-</script>  
+});
 
+
+
+
+</script>
+</body>
 
 
 </html>

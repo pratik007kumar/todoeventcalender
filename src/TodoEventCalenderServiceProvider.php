@@ -20,7 +20,11 @@ class TodoEventCalenderServiceProvider extends ServiceProvider
       $this->publishes([
         __DIR__.'/public' => public_path('vendor/pratik/todocalender'),
     ], 'public');
-    }
+      
+    // Publish your migrations
+    $this->publishes([
+        __DIR__.'/migrations/' => database_path('/migrations')
+    ], 'migrations');
 
     /**
      * Register the application services.
@@ -29,10 +33,6 @@ class TodoEventCalenderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-         // include __DIR__.'/routes.php';
-
         $this->app->make('Pratik\ToDoEventCalender\Controller\CalenderController');
-        // $this->app->make('Pratik\ToDoEventCalender\Model\Calender');
-        // $this->app->make('Pratik\ToDoEventCalender\Requests\');
     }
 }

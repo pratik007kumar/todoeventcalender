@@ -1,2 +1,3 @@
 src/public/* linguist-vendored
-*.rb linguist-language=html
+ 
+src/public/plugins/fullcalendar/demos/* linguist-vendored

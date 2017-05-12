@@ -272,7 +272,7 @@ This is simple event calender.which is developed using <a href="https://fullcale
     });
     
 
-});
+    });
 
     </script>
 

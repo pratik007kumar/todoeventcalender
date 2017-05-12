@@ -6,11 +6,11 @@ This is simple event calender.which is developed using <a href="https://fullcale
 
 #### Step 1:copy vender using composer
 
-    composer require pratik007kumardev/todoeventcalender:"dev-master"
+    composer require pratik007kumar/todoeventcalender:"dev-master"
     or
     "require": {
        
-        "pratik007kumardev/todoeventcalender": "dev-master"
+        "pratik007kumar/todoeventcalender": "dev-master"
     }
 
     and run composer update

@@ -72,11 +72,18 @@
 				header: {
 					left: 'prev,next today',
 					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
+					right: 'timelineYear,listYear,month,agendaWeek,agendaDay'
+					// prevYear, nextYear,listMonth,
+				}, 
+				buttonText: {
+            listYear: "year",
+        	},
+	        viewDisplay: function(view) {
+	        },
 				timezone: 'Asia/Kolkata',
 				defaultDate: '{{date("Y-m-d")}}',
 				editable: true,
+				weekends:false,
 			eventLimit: true, // allow "more" link when too many events
 			events: function(start, end, timezone, callback) {
 				$.ajax({

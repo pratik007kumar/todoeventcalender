@@ -1,0 +1,2 @@
+src/public/* linguist-vendored
+*.rb linguist-language=Php

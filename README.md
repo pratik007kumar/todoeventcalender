@@ -274,6 +274,33 @@ This is simple event calender.which is developed using <a href="https://fullcale
 
     });
 
+    function deleteEvent(id) {
+    	
+    	if(confirm("Do you want to Delete event")){
+    		$.ajax({
+    			method: "POST",
+    			url: "{{url('/calender/delete')}}",
+    			data:{_token: "{{ csrf_token() }}",id:id},
+    			success: function (data) {
+    				if(data.status){
+    					// alert(data.msg);
+    					 	// make_calender();
+    					 	$('#calendar').fullCalendar( 'refetchEvents' )
+    					 	$('#calendarModal').modal('hide');
+    						// make_calender();
+    					}else{
+    						alert(data.msg);
+    
+    					}
+    				}
+    			});
+    
+    
+    
+    	}
+    
+    
+    }
     </script>
 
 #### step end: you can use calender. for demo you can www.yourdomain.com/calender or localhost/yourapp/calender

@@ -34,15 +34,8 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<form id="calender_frm" action="#" method="post">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-							<h4 id="modalTitle" class="modal-title"></h4>
-						</div>
-						<div id="modalBody" class="modal-body"> </div>
-						<div class="modal-footer">
-							<button type="submit" class="btn btn-success" >Save</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
+						
+
 					</form>
 				</div>
 			</div>
@@ -115,7 +108,7 @@
 			,
 			eventRender: function(event, element) {
 		 //      $(element).tooltip({title: event.title});       
-		 // element.find("div.fc-content").prepend("+");      
+		 // element.find("div.fc-content").prepend("<i class='pull-right' onclick='deleteEvent("+event.id+")'>X</i>");      
 		},
 		 // eventClick: function(data, event, view) {
    //         alert(data.start);
@@ -138,7 +131,7 @@
 
 	   		if(data.status == 1){
 
-	   			$('#modalBody').html(data.frm);
+	   			$('#calender_frm').html(data.frm);
 		            // $('#eventUrl').attr('href',event.url);
 		            $('input[name="daterange"]').daterangepicker({
 		            	timePicker: true,
@@ -182,7 +175,7 @@ $.ajax({
 
 	        	if(data.status == 1){
 
-	        		$('#modalBody').html(data.frm);
+	        		$('#calender_frm').html(data.frm);
 			            // $('#eventUrl').attr('href',event.url);
 			            $('input[name="daterange"]').daterangepicker({
 			            	timePicker: true,
@@ -296,6 +289,33 @@ $("#calender_frm").validate({
 
 });
 
+function deleteEvent(id) {
+	
+	if(confirm("Do you want to Delete event")){
+		$.ajax({
+			method: "POST",
+			url: "{{url('/calender/delete')}}",
+			data:{_token: "{{ csrf_token() }}",id:id},
+			success: function (data) {
+				if(data.status){
+					// alert(data.msg);
+					 	// make_calender();
+					 	$('#calendar').fullCalendar( 'refetchEvents' )
+					 	$('#calendarModal').modal('hide');
+						// make_calender();
+					}else{
+						alert(data.msg);
+
+					}
+				}
+			});
+
+
+
+	}
+
+
+}
 
 
 

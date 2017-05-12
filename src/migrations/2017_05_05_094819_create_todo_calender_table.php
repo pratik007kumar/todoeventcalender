@@ -18,7 +18,7 @@ class CreateTodoCalenderTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->dateTime('start_dt');
             $table->dateTime('end_dt');
             $table->boolean('status');

@@ -4,7 +4,7 @@
     "type": "library",
     "language":"php , php7",
     "license": "MIT",
-    "keywords": ["calender","event calender","todo calender","todo event calender","laravel 5.4"],
+    "keywords": ["laravel","calender","event calender","todo calender","todo event calender","laravel 5.4","laravel event Calender"],
     "homepage":"https://github.com/pratik007kumar/todoeventcalender",
     "authors": [
         {
